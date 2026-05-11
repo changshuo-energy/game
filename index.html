@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <title>稀奇知識笑一個｜選擇題猜謎</title>
+    <meta
+      name="description"
+      content="讓人發笑的稀奇知識選擇題猜謎：30 秒一題，答對加分，答錯也有梗。"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="bg-glow" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand" role="banner">
+        <div class="logo" aria-hidden="true">?</div>
+        <div class="brand-text">
+          <div class="brand-title">稀奇知識笑一個</div>
+          <div class="brand-subtitle">選擇題猜謎｜答錯也會被梗笑到</div>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="btn-settings" class="btn btn-ghost" type="button">設定</button>
+        <button id="btn-reset" class="btn btn-ghost" type="button">重來</button>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="card hero" aria-labelledby="hero-title">
+        <div class="hero-left">
+          <h1 id="hero-title">用稀奇知識把你逗笑</h1>
+          <p class="muted">
+            每題都是「看起來很正經但其實很荒謬」的冷知識。選一個答案，立即揭曉梗。
+          </p>
+          <div class="hero-actions">
+            <button id="btn-start" class="btn btn-primary" type="button">開始玩</button>
+            <button id="btn-how" class="btn" type="button">怎麼玩</button>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-label">最高分</div>
+              <div id="best-score" class="stat-value">0</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">題庫</div>
+              <div id="bank-count" class="stat-value">—</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">模式</div>
+              <div id="mode-label" class="stat-value">隨機</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="ad-frame">
+            <div class="ad-title">贊助／廣告</div>
+            <div id="ad-top" class="ad-slot" role="complementary" aria-label="廣告版位（上）">
+              <div class="ad-placeholder">
+                <div class="ad-placeholder-title">廣告版位</div>
+                <div class="ad-placeholder-text">
+                  你可以在設定中貼上 AdSense（或任意）廣告代碼。此處也可放自家商品/聯盟連結。
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mini-note">
+            小提醒：廣告商（例如 Google AdSense）通常禁止「誘導點擊」文字。
+          </div>
+        </div>
+      </section>
+
+      <section id="game" class="card game hidden" aria-live="polite">
+        <div class="game-top">
+          <div class="pill">
+            <span id="q-progress">第 1 題 / 10</span>
+          </div>
+          <div class="pill">
+            <span>分數：</span><span id="score">0</span>
+          </div>
+          <div class="pill">
+            <span>倒數：</span><span id="timer">30</span><span class="unit">秒</span>
+          </div>
+        </div>
+
+        <div class="question">
+          <div id="q-category" class="category">—</div>
+          <div id="q-text" class="q-text">—</div>
+        </div>
+
+        <div id="choices" class="choices" role="listbox" aria-label="選擇題答案"></div>
+
+        <div id="reveal" class="reveal hidden" role="status" aria-live="polite">
+          <div class="reveal-head">
+            <div id="reveal-badge" class="badge">—</div>
+            <div id="reveal-title" class="reveal-title">—</div>
+          </div>
+          <div id="reveal-body" class="reveal-body">—</div>
+          <div class="reveal-actions">
+            <button id="btn-next" class="btn btn-primary" type="button">下一題</button>
+            <button id="btn-share" class="btn" type="button">分享分數</button>
+          </div>
+        </div>
+
+        <div class="ad-row">
+          <div class="ad-frame">
+            <div class="ad-title">贊助／廣告</div>
+            <div id="ad-bottom" class="ad-slot" role="complementary" aria-label="廣告版位（下）"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="設定視窗">
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <div class="modal-card" role="document">
+          <div class="modal-head">
+            <div class="modal-title">設定</div>
+            <button id="btn-close-modal" class="btn btn-ghost" type="button" aria-label="關閉">
+              ✕
+            </button>
+          </div>
+
+          <div class="form">
+            <div class="field">
+              <label class="label" for="round-size">每回合題數</label>
+              <select id="round-size" class="input">
+                <option value="5">5 題（快樂快）</option>
+                <option value="10" selected>10 題（剛剛好）</option>
+                <option value="15">15 題（冷知識馬拉松）</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="label" for="timer-seconds">每題秒數</label>
+              <select id="timer-seconds" class="input">
+                <option value="15">15 秒（刺激）</option>
+                <option value="20">20 秒（加速笑點）</option>
+                <option value="30" selected>30 秒（悠哉）</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="label" for="ad-html">廣告 HTML（可貼 AdSense 代碼或自家廣告）</label>
+              <textarea
+                id="ad-html"
+                class="input textarea"
+                rows="7"
+                placeholder="貼上你的廣告 HTML 片段（script/ins/a 皆可）。會套用到上、下兩個廣告版位。"
+              ></textarea>
+              <div class="help">
+                安全提醒：此功能會插入你提供的 HTML，請只貼可信任來源的廣告碼。
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">顯示提示</label>
+              <label class="switch">
+                <input id="toggle-hints" type="checkbox" checked />
+                <span class="slider" aria-hidden="true"></span>
+                <span class="switch-text">答題前先給你一點點「不太有用」的小提示</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button id="btn-save-settings" class="btn btn-primary" type="button">儲存</button>
+            <button id="btn-clear-ad" class="btn" type="button">清空廣告</button>
+          </div>
+
+          <div class="modal-foot muted">
+            若你要接 Google AdSense：通常需要你自己到 AdSense 後台申請、驗證網域、取得
+            <code>&lt;script&gt;</code> + <code>&lt;ins class="adsbygoogle"&gt;</code> 的片段。
+          </div>
+        </div>
+      </section>
+
+      <section id="toast" class="toast hidden" role="status" aria-live="polite"></section>
+    </main>
+
+    <footer class="footer">
+      <div class="muted">
+        Made for laughs. 你可以把題庫換成自己的（在 <code>app.js</code> 裡）。
+      </div>
+      <a class="link" href="./README.md">使用說明</a>
+    </footer>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
