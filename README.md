@@ -22,7 +22,9 @@ python3 -m http.server 5173
 
 ## 如何加入廣告（讓你賺錢）
 
-右上角按 **設定**，在「廣告 HTML」貼上你的廣告片段即可，會套用到上/下兩個版位。
+我已把你的 **Google AdSense（Auto ads）** 程式碼直接寫進每個頁面的 `<head>`（`client=ca-pub-7149341893905195`）。
+
+若你之後想改成「固定廣告版位」的形式（有 `data-ad-slot` 的 `<ins class="adsbygoogle">`），再把 AdSense 後台建立的廣告單元貼進去即可。
 
 ### AdSense 範例（示意）
 
